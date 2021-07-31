@@ -8,6 +8,7 @@ from src.data.Batcher import Batcher
 from src.adapet import adapet
 from src.utils.Config import Config
 from src.eval.eval_model import dev_eval
+from src.utils.util import device
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

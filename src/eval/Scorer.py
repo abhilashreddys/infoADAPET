@@ -23,6 +23,7 @@ class Scorer(object):
         self.is_multirc = False
         self.is_record = False
         self.is_rte = False
+        self.is_info = False
         self.is_wic = False
 
         self.list_logits = []
@@ -50,6 +51,9 @@ class Scorer(object):
         elif dataset.lower() == "fewglue/rte":
             self.compute_acc = True
             self.is_rte = True
+        elif dataset.lower() == "infotabs/drr":
+            self.compute_acc = True
+            self.is_info = True
         elif dataset.lower() == "fewglue/wic":
             self.compute_acc = True
             self.is_wic = True
