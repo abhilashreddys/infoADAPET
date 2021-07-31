@@ -53,15 +53,15 @@ class infotabsReader(object):
         :return:
         '''
         if split.lower() == "train":
-            file = os.path.join("data", "infotabs", "drr", "train.tsv")
+            file = os.path.join("src/data", "infotabs", "drr", "train.tsv")
         elif split.lower() == "dev":
-            file = os.path.join("data", "infotabs", "drr", "dev.tsv")
+            file = os.path.join("src/data", "infotabs", "drr", "dev.tsv")
         elif split.lower() == "test_alpha1":
-            file = os.path.join("data", "infotabs", "drr", "test_alpha1.tsv")
+            file = os.path.join("src/data", "infotabs", "drr", "test_alpha1.tsv")
         elif split.lower() == "test_alpha2":
-            file = os.path.join("data", "infotabs", "drr", "test_alpha2.tsv")
+            file = os.path.join("src/data", "infotabs", "drr", "test_alpha2.tsv")
         elif split.lower() == "test_alpha3":
-            file = os.path.join("data", "infotabs", "drr", "test_alpha3.tsv")
+            file = os.path.join("src/data", "infotabs", "drr", "test_alpha3.tsv")
         return file
 
     def read_dataset(self, split=None, is_eval=False):

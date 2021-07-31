@@ -9,6 +9,7 @@ from src.data.WiCReader import WiCReader
 from src.data.COPAReader import COPAReader
 from src.data.RecordReader import RecordReader
 from src.data.WSCReader import WSCReader
+from src.data.infotabsReader import infotabsReader
 
 class DatasetReader(object):
     '''
@@ -29,6 +30,8 @@ class DatasetReader(object):
             self.dataset_reader = CBReader(self.config, tokenizer)
         elif self.dataset.lower() == "fewglue/rte":
             self.dataset_reader = RTEReader(self.config, tokenizer)
+        elif self.dataset.lower() == "infotabs/drr":
+            self.dataset_reader = infotabsReader(self.config, tokenizer)
         elif self.dataset.lower() == "fewglue/multirc":
             self.dataset_reader = MultiRCReader(self.config, tokenizer)
         elif self.dataset.lower() == "fewglue/wic":
