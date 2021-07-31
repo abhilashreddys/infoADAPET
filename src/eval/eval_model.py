@@ -76,6 +76,23 @@ def dev_eval(config, model, batcher, num_batches, dict_avg_val=None):
 
     return score_eval, dev_logits
 
+def test_alpha_eval(config, model, batcher,alpha=1):
+    '''
+    Evaluates the accuracy on the test partition
+
+    :param config:
+    :param model:
+    :param batcher:
+    '''
+    test_alpha_scorer = Scorer(config, config.dataset)
+    test_alpha_iter = batcher.get_test_alpha_batch(alpha=alpha)
+    eval(config, model, test_alpha_iter, test_alpha_scorer)
+    score_test, test_alpha_scores = test_alpha_scorer.get_score("test_alpha"+str(alpha))
+    # dict_eval.update(dev_scores)
+    test_alpha_logits = test_alpha_scorer.get_logits()
+
+    return score_test, test_alpha_logits
+
 def test_eval(config, model, batcher):
     '''
     Evaluates the accuracy on the test partition
