@@ -101,9 +101,9 @@ def train(config):
             scheduler.step()
 
         dict_val_store = update_dict_val_store(dict_val_store, dict_val_update, config.grad_accumulation_factor)
-        print("Finished %d batches" % batch_idx, end='\r')
+        print("Finished %d batches" % batch_idx) # , end='\r'
 
-        if (batch_idx + 1) % config.eval_every == 0 and i % config.grad_accumulation_factor == 0:
+        if (batch_idx + 1) % config.eval_every == 0 and (i+1) % config.grad_accumulation_factor == 0:
             dict_avg_val = get_avg_dict_val_store(dict_val_store, config.eval_every)
             dict_val_store = None
             dev_acc, dev_logits = dev_eval(config, model, batcher, batch_idx, dict_avg_val)
