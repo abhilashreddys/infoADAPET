@@ -18,6 +18,7 @@ if __name__ == "__main__":
     config_file = os.path.join(args.exp_dir, "config.json")
     config = Config(config_file, mkdir=False)
     config.eval_dev = True
+    config.eval_train = False
 
     tokenizer = AutoTokenizer.from_pretrained(config.pretrained_weight)
     batcher = Batcher(config, tokenizer, config.dataset)
@@ -27,5 +28,6 @@ if __name__ == "__main__":
     model.load_state_dict(torch.load(os.path.join(args.exp_dir, "best_model.pt")))
     dev_acc, dev_logits = dev_eval(config, model, batcher, 0)
 
+    print("Dev Acc: %.3f" % (dev_acc) + '\n')
     with open(os.path.join(config.exp_dir, "dev_logits.npy"), 'wb') as f:
         np.save(f, dev_logits)
