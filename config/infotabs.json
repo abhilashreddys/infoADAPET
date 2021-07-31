@@ -1,6 +1,6 @@
 {
     "pretrained_weight":  "roberta-large",
-    "dataset": "fewglue/RTE",
+    "dataset": "infotabs/drr",
     "max_text_length": 256,
     "batch_size": 1,
     "eval_batch_size": 1,

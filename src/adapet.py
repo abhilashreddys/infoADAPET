@@ -29,6 +29,9 @@ class adapet(torch.nn.Module):
         if "albert" in pretrained_file:
             albert_config = AlbertConfig.from_pretrained(pretrained_file)
             self.model = AlbertForMaskedLM.from_pretrained(pretrained_file, config=albert_config)
+        elif "roberta" in pretrained_file:
+            roberta_config = RobertaConfig.from_pretrained(pretrained_file)
+            self.model = RobertaForMaskedLM.from_pretrained(pretrained_file, config=roberta_config)
         else:
             raise ValueError("Invalid model")
 
