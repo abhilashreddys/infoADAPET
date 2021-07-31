@@ -88,6 +88,13 @@ class Batcher(object):
         '''
         test_data = self.dataset_reader.read_dataset("test")
         self.test_loader = data.DataLoader(Dataset(test_data), batch_size=self.config.eval_batch_size, shuffle=False, collate_fn=self.my_collate_fn)
+    
+    def _init_test_alpha(self,alpha=1):
+        '''
+        Initialize loader for test data
+        '''
+        test_data = self.dataset_reader.read_dataset("test_alpha"+str(alpha))
+        self.test_loader = data.DataLoader(Dataset(test_data), batch_size=self.config.eval_batch_size, shuffle=False, collate_fn=self.my_collate_fn)
 
     def get_train_batch(self):
         '''
@@ -134,6 +141,18 @@ class Batcher(object):
         '''
         if self.test_loader is None:
             self._init_test()
+
+        for x in self.test_loader:
+            yield x
+    
+    def get_test_alpha_batch(self,alpha=1):
+        '''
+        Yield test batches
+
+        :return:
+        '''
+        if self.test_loader is None:
+            self._init_test_alpha(alpha=alpha)
 
         for x in self.test_loader:
             yield x
