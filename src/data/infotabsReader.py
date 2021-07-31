@@ -81,13 +81,22 @@ class infotabsReader(object):
                 if(i == 0): # header
                     continue
                 else:
-                    if(line[5]==0 or line[5]==2): # no neutral
+                    if(int(line[5])==0): # no neutral
                         dict_input = {}
                         dict_input["premise"] = preprocessTxt(line[3])
                         dict_input["hypothesis"] = preprocessTxt(line[4])
                         dict_input["idx"] = str(line[0])
                         dict_output = {}
-                        dict_output["lbl"] = line[5]
+                        dict_output["lbl"] = int(line[5])
+                        dict_input_output = {"input": dict_input, "output": dict_output}
+                        data.append(dict_input_output)
+                    if(int(line[5])==2): # no neutral
+                        dict_input = {}
+                        dict_input["premise"] = preprocessTxt(line[3])
+                        dict_input["hypothesis"] = preprocessTxt(line[4])
+                        dict_input["idx"] = str(line[0])
+                        dict_output = {}
+                        dict_output["lbl"] = 1 # making label 2 as 1
                         dict_input_output = {"input": dict_input, "output": dict_output}
                         data.append(dict_input_output)
         return data
