@@ -39,7 +39,7 @@ class infotabsReader(object):
         self._num_pets = len(self.pet_pvps)
         self._pet_names = ["PET{}".format(i+1) for i in range(self._num_pets)]
 
-        self.dict_lbl_2_idx = {"entailment": 0, "not_entailment": 1}
+        # self.dict_lbl_2_idx = {"entailment": 0, "not_entailment": 1}
 
         self.dict_inv_freq = defaultdict(int)
         self.tot_doc = 0
