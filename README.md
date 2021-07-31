@@ -1,6 +1,10 @@
-# ADAPET #
+# INFOTABS + ADAPET #
 
-This repository contains the official code for the paper: "[Improving and Simplifying Pattern Exploiting Training](https://arxiv.org/abs/2103.11955)".
+ [ACL 2020](https://acl2020.org/) paper: [INFOTABS: Inference on Tables as Semi-structured Data](https://www.aclweb.org/anthology/2020.acl-main.210.pdf). To explore the dataset online visit [project page](https://infotabs.github.io).
+
+[Infotabs Dataset](https://github.com/infotabs/infotabs)
+
+This repository contains the modified [official code](https://github.com/rrmenon10/ADAPET) for the paper: "[Improving and Simplifying Pattern Exploiting Training](https://arxiv.org/abs/2103.11955)".
 
 The model improves and simplifies [PET](https://arxiv.org/abs/2009.07118) with a decoupled label objective and label-conditioned MLM objective. 
 
