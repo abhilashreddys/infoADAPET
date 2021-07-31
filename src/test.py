@@ -8,11 +8,12 @@ from src.data.Batcher import Batcher
 from src.utils.Config import Config
 from src.utils.util import device
 from src.adapet import adapet
-from src.eval.eval_model import test_eval
+from src.eval.eval_model import test_eval,test_alpha_eval
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-e', "--exp_dir", required=True)
+    parser.add_argument('-a', "--alpha", required=True)
     args = parser.parse_args()
 
     config_file = os.path.join(args.exp_dir, "config.json")
@@ -24,5 +25,7 @@ if __name__ == "__main__":
 
     model = adapet(config, tokenizer, dataset_reader).to(device)
     model.load_state_dict(torch.load(os.path.join(args.exp_dir, "best_model.pt")))
-    test_eval(config, model, batcher)
+    # test_eval(config, model, batcher)
+    test_alpha_acc, _ = test_alpha_eval(config, model, batcher,alpha=int(args.alpha))
+    print("Test alpha_%s Acc: %.3f" % (args.alpha,test_alpha_acc) + '\n')
 
