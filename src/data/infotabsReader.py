@@ -29,7 +29,7 @@ class infotabsReader(object):
 
         self.num_lbl = 2
 
-        self.pet_labels = [["Yes", "No"]]
+        self.pet_labels = [["No", "Yes"]]
         self.pet_patterns = [["[HYPOTHESIS] ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
                              ["\" [HYPOTHESIS] \" ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"],
                              ["[HYPOTHESIS] ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
