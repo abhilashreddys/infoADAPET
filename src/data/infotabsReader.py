@@ -27,11 +27,13 @@ class infotabsReader(object):
 
         self.list_true_lbl = []
 
-        self.num_lbl = 2
+        self.num_lbl = 3
 
-        self.pet_labels = [["No", "Yes"]]
+        self.pet_labels = [["No", "Maybe", "Yes"]]
         self.pet_patterns = [["[HYPOTHESIS] ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
                              ["\" [HYPOTHESIS] \" ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"],
+                             ["[HYPOTHESIS] ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
+                             ["\" [HYPOTHESIS] \" ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"],
                              ["[HYPOTHESIS] ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
                              ["\" [HYPOTHESIS] \" ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"]]
 
@@ -39,7 +41,7 @@ class infotabsReader(object):
         self._num_pets = len(self.pet_pvps)
         self._pet_names = ["PET{}".format(i+1) for i in range(self._num_pets)]
 
-        # self.dict_lbl_2_idx = {"entailment": 0, "not_entailment": 1}
+        # self.dict_lbl_2_idx = {"Contradiction": 0, "Neutral": 1, "Entailment":2}
 
         self.dict_inv_freq = defaultdict(int)
         self.tot_doc = 0
@@ -81,24 +83,14 @@ class infotabsReader(object):
                 if(i == 0): # header
                     continue
                 else:
-                    if(int(line[5])==0): # no neutral
-                        dict_input = {}
-                        dict_input["premise"] = preprocessTxt(line[3])
-                        dict_input["hypothesis"] = preprocessTxt(line[4])
-                        dict_input["idx"] = str(line[0])
-                        dict_output = {}
-                        dict_output["lbl"] = int(line[5])
-                        dict_input_output = {"input": dict_input, "output": dict_output}
-                        data.append(dict_input_output)
-                    if(int(line[5])==2): # no neutral
-                        dict_input = {}
-                        dict_input["premise"] = preprocessTxt(line[3])
-                        dict_input["hypothesis"] = preprocessTxt(line[4])
-                        dict_input["idx"] = str(line[0])
-                        dict_output = {}
-                        dict_output["lbl"] = 1 # making label 2 as 1
-                        dict_input_output = {"input": dict_input, "output": dict_output}
-                        data.append(dict_input_output)
+                    dict_input = {}
+                    dict_input["premise"] = preprocessTxt(line[3])
+                    dict_input["hypothesis"] = preprocessTxt(line[4])
+                    dict_input["idx"] = str(line[0])
+                    dict_output = {}
+                    dict_output["lbl"] = int(line[5])
+                    dict_input_output = {"input": dict_input, "output": dict_output}
+                    data.append(dict_input_output)
         return data
     @property
     def pets(self):
