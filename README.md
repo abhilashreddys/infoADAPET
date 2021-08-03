@@ -20,7 +20,7 @@ cd infoADAPET/
 ```
 
 Processed INFOTABS data is already in the git repo. \
-Download data (if required)
+Download data (if required) \
 Superglue
 
 ```sh
