@@ -8,7 +8,53 @@ This repository contains the modified [official code](https://github.com/rrmenon
 
 The model improves and simplifies [PET](https://arxiv.org/abs/2009.07118) with a decoupled label objective and label-conditioned MLM objective. 
 
-
+## How run on colab? ##
+Open [colab](https://colab.research.google.com/)
+Make a new notebook and connect it to hardware accelerator.
+```
+!git clone https://github.com/abhilashreddys/infoADAPET.git
+!pip install crcmod jsonpickle wandb transformers tqdm sentencepiece
+cd infoADAPET/
+```
+Processed IMFOTABS data is already in the git repo.
+Download data (if required)
+Superglue
+```
+mkdir -p data
+cd data
+mkdir -p superglue
+cd superglue
+wget "https://dl.fbaipublicfiles.com/glue/superglue/data/v2/combined.zip"
+unzip combined.zip
+cd ../..
+```
+Fewglue
+```
+mkdir -p data
+cd data
+git clone https://github.com/timoschick/fewglue.git
+cd fewglue
+rm -rf .git
+rm README.md
+mv FewGLUE/* .
+rm -r FewGLUE
+cd ../..
+```
+Set Env variables
+```
+%env PET_ELECTRA_ROOT= /content/infoADAPET
+%env PYTHONPATH=$PET_ELECTRA_ROOT:$PYTHONPATH
+%env PYTHON_EXEC=python
+```
+Training
+```
+!python -m src.train -c /content/ADAPET/config/{config_file}.json
+```
+Evaluation
+```
+!python -m src.dev -e "/content/ADAPET/exp_out/fewglue/{task_name}/albert-xxlarge-v2/{timestamp}/
+!python -m src.test -e "/content/ADAPET/exp_out/fewglue/{task_name}/albert-xxlarge-v2/{timestamp}/
+```
 ## Model ## 
 
 <img src="img/ADAPET_update.png" width="400" height="300"/> <img src="img/LCMLM_update.png" width="420" height="300"/>
