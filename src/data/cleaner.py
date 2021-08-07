@@ -56,12 +56,13 @@ def preprocessTxt(text):
     # he is a boyHe is good
     # text = re.sub(r"([?.!,¿])", r" \1 ", text)
     # text = re.sub(r'(?<=[.,])(?=[^\s])', r' ', text)
-    text = text.replace(".","")
+    # text = text.replace(".","")
     text = re.sub('([!\"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~])', r' \1 ', text)
+    text = re.sub('\s{2,}', ' ', text)
     # text = re.sub('\s{2,}', ' ', text)
     # text = re.sub(r'[" "]+', " ", text)
     #Remove Punctuations
-    text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
+    # text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
     # Remove extra space
     for sf,ff in shorted.items():
         text = text.replace(sf, ff)
