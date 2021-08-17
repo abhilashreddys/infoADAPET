@@ -94,7 +94,7 @@ class Batcher(object):
         Initialize loader for test data
         '''
         test_data = self.dataset_reader.read_dataset("test_alpha"+str(alpha))
-        self.test_loader = data.DataLoader(Dataset(test_data), batch_size=self.config.eval_batch_size, shuffle=False, collate_fn=self.my_collate_fn)
+        self.test_alpha_loader = data.DataLoader(Dataset(test_data), batch_size=self.config.eval_batch_size, shuffle=False, collate_fn=self.my_collate_fn)
 
     def get_train_batch(self):
         '''
@@ -109,6 +109,17 @@ class Batcher(object):
             for x in self.train_loader:
                 yield x
 
+    def get_train_loader(self):
+        '''
+        return train loader
+
+        :return:
+        '''
+        if self.train_loader is None:
+            self._init_train()
+        
+        return self.train_loader
+
     def get_eval_train_batch(self):
         '''
         Yield non-shuffled train batches
@@ -119,6 +130,16 @@ class Batcher(object):
             self._init_train()
         for x in self.eval_train_loader:
             yield x
+
+    def get_eval_train_loader(self):
+        '''
+        return non-shuffled train loader
+
+        :return:
+        '''
+        if self.eval_train_loader is None:
+            self._init_train()        
+        return self.eval_train_loader
 
     def get_dev_batch(self):
         '''
@@ -131,7 +152,15 @@ class Batcher(object):
 
         for x in self.dev_loader:
             yield x
+    def get_dev_loader(self):
+        '''
+        return dev loader
 
+        :return:
+        '''
+        if self.dev_loader is None:
+            self._init_dev()
+        return self.dev_loader
 
     def get_test_batch(self):
         '''
@@ -145,14 +174,36 @@ class Batcher(object):
         for x in self.test_loader:
             yield x
     
+    def get_test_loader(self):
+        '''
+        return test loader
+
+        :return:
+        '''
+        if self.test_loader is None:
+            self._init_test()
+        
+        return self.test_loader
+
     def get_test_alpha_batch(self,alpha=1):
         '''
         Yield test batches
 
         :return:
         '''
-        if self.test_loader is None:
+        if self.test_alpha_loader is None:
             self._init_test_alpha(alpha=alpha)
 
         for x in self.test_loader:
             yield x
+    
+    def get_test_alpha_loader(self,alpha=1):
+        '''
+        return test loader
+
+        :return:
+        '''
+        if self.test_alpha_loader is None:
+            self._init_test_alpha(alpha=alpha)
+        
+        return self.test_alpha_loader
