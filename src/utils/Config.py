@@ -17,6 +17,7 @@ class Config(object):
         self.pattern = "random"
 
         # Duration of training parameters
+        self.epochs = 10
         self.batch_size = 8
         self.eval_batch_size = 64
         self.num_batches = 1000
