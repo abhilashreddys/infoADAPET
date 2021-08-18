@@ -90,6 +90,7 @@ def train(config):
     global_step = 0
 
     for ep in range(config.epochs):
+        print("Started %d epoch" % ep)
         for i, batch in enumerate(train_loader):
             model.train()
             # batch = {k: t.to(device) for k, t in batch.items()}
@@ -104,7 +105,6 @@ def train(config):
                 global_step += 1
             step += 1
             dict_val_store = update_dict_val_store(dict_val_store, dict_val_update, config.grad_accumulation_factor)
-        print("Finished %d epochs" % ep)
         dict_avg_val = get_avg_dict_val_store(dict_val_store, config.eval_every)
         dict_val_store = None
         dev_acc, dev_logits = dev_eval(config, model, batcher, ep, dict_avg_val)
