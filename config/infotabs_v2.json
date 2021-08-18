@@ -9,7 +9,7 @@
     "max_num_lbl_tok": 1,
     "mask_alpha": 0.105,
     "eval_every": 250,
-    "warmup_ratio": 0.06,
+    "warmup_ratio": 0.03,
     "grad_accumulation_factor": 16,
     "seed": 42,
     "lr": 1e-5,
