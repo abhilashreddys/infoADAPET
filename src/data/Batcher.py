@@ -24,6 +24,7 @@ class Batcher(object):
         self.train_loader = None
         self.dev_loader = None
         self.test_loader = None
+        self.test_alpha_loader = None
         self.eval_train_loader = None
 
         self.data_len = None
@@ -194,7 +195,7 @@ class Batcher(object):
         if self.test_alpha_loader is None:
             self._init_test_alpha(alpha=alpha)
 
-        for x in self.test_loader:
+        for x in self.test_alpha_loader:
             yield x
     
     def get_test_alpha_loader(self,alpha=1):
