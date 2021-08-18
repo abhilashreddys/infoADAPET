@@ -80,25 +80,29 @@ def train(config):
 
     
     # Number of batches is assuming grad_accumulation_factor forms one batch
-    tot_num_batches = config.num_batches * config.grad_accumulation_factor
+    # tot_num_batches = config.num_batches * config.grad_accumulation_factor
 
     # Warmup steps and total steps are based on batches, not epochs
-    num_warmup_steps = config.num_batches * config.warmup_ratio
-    scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps, config.num_batches)
+    num_warmup_steps = config.epochs*len(train_loader)* config.warmup_ratio
+    scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps, config.epochs*len(train_loader))
     
+    step = 0
+    global_step = 0
 
     for ep in range(config.epochs):
         for i, batch in enumerate(train_loader):
             model.train()
-            batch = {k: t.to(device) for k, t in batch.items()}
+            # batch = {k: t.to(device) for k, t in batch.items()}
             loss, dict_val_update = model(batch)
             loss = loss / config.grad_accumulation_factor
             loss.backward()
-            if (i+1) % config.grad_accumulation_factor == 0:
+            if (step+1) % config.grad_accumulation_factor == 0:
                 torch.nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip_norm)
                 optimizer.step()
                 optimizer.zero_grad()
                 scheduler.step()
+                global_step += 1
+            step += 1
             dict_val_store = update_dict_val_store(dict_val_store, dict_val_update, config.grad_accumulation_factor)
         print("Finished %d epochs" % ep)
         dict_avg_val = get_avg_dict_val_store(dict_val_store, config.eval_every)
