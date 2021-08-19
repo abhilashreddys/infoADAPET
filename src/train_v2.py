@@ -8,7 +8,7 @@ from transformers import *
 from src.eval.eval_model import dev_eval
 from src.adapet import adapet
 from torch.optim.lr_scheduler import LambdaLR
-
+from tqdm import tqdm
 from src.data.Batcher import Batcher
 from src.utils.Config import Config
 from src.utils.util import get_avg_dict_val_store, update_dict_val_store, ParseKwargs
@@ -91,7 +91,7 @@ def train(config):
 
     for ep in range(config.epochs):
         print("Started %d epoch" % ep)
-        for i, batch in enumerate(train_loader):
+        for i, batch in enumerate(tqdm(train_loader)):
             model.train()
             # batch = {k: t.to(device) for k, t in batch.items()}
             loss, dict_val_update = model(batch)
