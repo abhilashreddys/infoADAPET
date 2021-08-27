@@ -99,7 +99,7 @@ class infotabsReader(object):
                         dict_output = {}
                         """
                         changing entail to 1 
-                        (as 0,2 labels cause the rror not 0,1)
+                        (as 0,2 labels cause the error not 0,1)
                         """
                         if (int(line[5])==2): 
                             dict_output["lbl"] = 1
