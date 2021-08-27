@@ -77,11 +77,11 @@ class MNLIReader(object):
                     continue
                 else:
                     dict_input = {}
-                    dict_input["premise"] = line[3]
-                    dict_input["hypothesis"] = line[6]
-                    dict_input["idx"] = int(line[1])
+                    dict_input["premise"] = line[2]
+                    dict_input["hypothesis"] = line[5]
+                    dict_input["idx"] = str(line[1])
                     dict_output = {}
-                    dict_output["lbl"] = int(line[10])
+                    dict_output["lbl"] = int(line[9])
                     dict_input_output = {"input": dict_input, "output": dict_output}
                     data.append(dict_input_output)
         return data
