@@ -52,7 +52,9 @@ class MNLIReader(object):
         :return:
         '''
         if split.lower() == "train":
-            file = os.path.join("src/data", "mnli", "train.tsv")
+            file = os.path.join("src/data", "mnli", "mnli_train_sampled10k.tsv")
+        elif split.lower() == "dev":
+            file = os.path.join("src/data", "mnli", "mnli_dev_sampled150.tsv")
         else:
             raise NotImplementedError("No file for other splits")
         return file
