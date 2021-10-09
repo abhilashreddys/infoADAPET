@@ -127,13 +127,14 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cwords, txt_trim, 
         sample_length = min(tot_length, config.max_text_length)
         upto_ratio_mask = np.random.rand()
         num_sample = max(int(upto_ratio_mask * config.mask_alpha * sample_length), 2) - 1
-        mask_idx = set(random.sample(range(0, sample_length), k=num_sample)).union(set(mask_seq))
+        mask_idx = random.sample(range(0, sample_length), k=num_sample)
         mask_idx = np.asarray(mask_idx)
 
     # Copy adds mask idx at random positions
     unsup_masked_ids = np.copy(trunc_input_ids)
 
     unsup_masked_ids[mask_idx] = tokenizer.mask_token_id
+    unsup_masked_ids[np.asarray(mask_seq)] = tokenizer.mask_token_id
 
     return trunc_input_ids, unsup_masked_ids, mask_idx
 
