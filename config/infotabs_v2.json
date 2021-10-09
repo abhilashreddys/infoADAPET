@@ -16,5 +16,6 @@
     "dropout_rate": 0.1,
     "weight_decay": 1e-2,
     "pattern": 1,
-    "eval_train": true
+    "eval_train": true,
+    "cmlm": false
 }
