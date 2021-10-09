@@ -8,12 +8,14 @@ import string
 import numpy as np
 import itertools
 import torch
+import spacy
 from collections import defaultdict
 
 from src.data.cleaner import preprocessTxt
-from src.data.tokenize import tokenize_pet_txt, tokenize_pet_mlm_txt
+from src.data.tokenize import tokenize_pet_txt, tokenize_pet_mlm_txt, tokenize_pet_cmlm_txt
 from src.utils.util import device
 
+nlp = spacy.load("en_core_web_sm")
 class infotabsReader(object):
     '''
     infotabsReader reads infotabs dataset
@@ -65,6 +67,14 @@ class infotabsReader(object):
         elif split.lower() == "test_alpha3":
             file = os.path.join("src/data", "infotabs", "drr", "test_alpha3.tsv")
         return file
+    
+    def getnmask(self,txt):
+        prob = []
+        doc = nlp(txt)
+        for t in doc:
+            if (t.pos_ == "NOUN" or t.pos_ == "NUM" or t.pos_ == "PROPN"):
+                prob.append(t.text)
+        return prob
 
     def read_dataset(self, split=None, is_eval=False):
         '''
@@ -86,6 +96,8 @@ class infotabsReader(object):
                     dict_input = {}
                     dict_input["premise"] = preprocessTxt(line[3])
                     dict_input["hypothesis"] = preprocessTxt(line[4])
+                    if(self.config["cmlm"]):
+                        dict_input["cwords"] = self.getnmask(dict_input["hypothesis"])
                     dict_input["idx"] = str(line[0])
                     dict_output = {}
                     dict_output["lbl"] = int(line[5])
@@ -108,7 +120,7 @@ class infotabsReader(object):
         '''
         list_hypothesis = batch["input"]["hypothesis"]
         list_premise = batch["input"]["premise"]
-
+        
         list_input_ids = []
         bs = len(batch["input"]["premise"])
         list_mask_idx = np.ones((bs, self.get_num_lbl_tok())) * self.config.max_text_length
@@ -137,7 +149,6 @@ class infotabsReader(object):
 
         '''
         Prepare for train
-
         :param batch:
         :return:
         '''
@@ -161,7 +172,7 @@ class infotabsReader(object):
             txt_trim = -1
 
             for idx, txt_split in enumerate(pattern):
-                txt_split_inp = txt_split.replace("[HYPOTHESIS]", h).replace("[PREMISE]", p).replace(self.tokenizer.mask_token, label[lbl])
+                txt_split_inp = txt_split.replace("[HYPOTHESIS]", h).replace("[PREMISE]", p).replace("[MASK]", label[lbl])
 
                 txt_split_tuple.append(txt_split_inp)
 
@@ -170,6 +181,53 @@ class infotabsReader(object):
                     txt_trim = idx
 
             orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_mlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], txt_trim)
+            list_orig_input_ids.append(orig_input_ids)
+            list_masked_input_ids.append(masked_input_ids)
+
+        return torch.tensor(list_orig_input_ids).to(device),  torch.tensor(list_masked_input_ids).to(device), prep_lbl, tgt.to(device)    
+
+    def prepare_pet_cmlm_batch(self, batch, mode="PET1"):
+
+        '''
+        Prepare for train
+
+        :param batch:
+        :return:
+        '''
+
+        list_hypothesis = batch["input"]["hypothesis"]
+        list_premise = batch["input"]["premise"]
+        list_cwords = batch["input"]["premise"]
+
+        bs = len(batch["input"]["hypothesis"])
+
+        prep_lbl = np.random.randint(self.num_lbl, size=bs)
+        tgt = torch.from_numpy(prep_lbl).long() == batch["output"]["lbl"]
+
+        pattern, label = self.pet_pvps[self._pet_names.index(mode)]
+
+        list_orig_input_ids = []
+        list_masked_input_ids = []
+
+        for b_idx, (h, p, cw, lbl) in enumerate(zip(list_hypothesis, list_premise, list_cwords, prep_lbl)):
+            txt_split_tuple = []
+
+            txt_trim = -1
+
+            for idx, txt_split in enumerate(pattern):
+                txt_split_inp = txt_split.replace("[HYPOTHESIS]", h).replace("[PREMISE]", p).replace(self.tokenizer.mask_token, label[lbl])
+
+                txt_split_tuple.append(txt_split_inp)
+
+                # Trim the paragraph
+                if "[PREMISE]" in txt_split:
+                    txt_trim = idx
+            if(len(cw)!=0):
+                mcw = random.sample(cw,1)
+                orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], mcw, txt_trim)
+            else:
+                mcw = ""
+                orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], mcw, txt_trim)
             list_orig_input_ids.append(orig_input_ids)
             list_masked_input_ids.append(masked_input_ids)
 
