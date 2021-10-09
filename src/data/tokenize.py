@@ -73,7 +73,7 @@ def gettokenseq(tok,word,sent):
             break
     return list(np.where(np.array(tok.word_ids()) == wid)[0])
 
-def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cwords, txt_trim, mask_idx=None):
+def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cword, txt_trim, mask_idx=None):
     '''
     Tokenizes the text by trimming the appropriate txt and CONDITIONAL MASKING
 
@@ -82,7 +82,7 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cwords, txt_trim, 
     :param txt1:
     :param txt2:
     :param txt3:
-    :param cwords: targeted words to mask
+    :param cword: targeted word to mask (string)
     :param mask_txt1:
     :param mask_txt2:
     :param mask_txt3:
@@ -95,7 +95,8 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cwords, txt_trim, 
     txt2_input_ids = tokenizer(txt2, add_special_tokens=False)["input_ids"]
     txt3_input_ids = tokenizer(txt3, add_special_tokens=False)["input_ids"]
 
-    mask_seq = gettokenseq(txt1_tokens,cwords,txt1)
+    if(len(cword)>0):
+        mask_seq = gettokenseq(txt1_tokens,cword,txt1)
 
     # Add 1 to account for CLS rep
     tot_length = len(txt1_input_ids) + len(txt2_input_ids) + len(txt3_input_ids) + 1
@@ -134,7 +135,8 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cwords, txt_trim, 
     unsup_masked_ids = np.copy(trunc_input_ids)
 
     unsup_masked_ids[mask_idx] = tokenizer.mask_token_id
-    unsup_masked_ids[np.asarray(mask_seq)] = tokenizer.mask_token_id
+    if(len(cword)>0):
+        unsup_masked_ids[np.asarray(mask_seq)] = tokenizer.mask_token_id
 
     return trunc_input_ids, unsup_masked_ids, mask_idx
 
