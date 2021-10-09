@@ -135,7 +135,7 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cword, txt_trim, m
     unsup_masked_ids = np.copy(trunc_input_ids)
 
     unsup_masked_ids[mask_idx] = tokenizer.mask_token_id
-    if(len(cword)>0):
+    if(len(cword)>0 and len(mask_seq)>0):
         unsup_masked_ids[np.asarray(mask_seq)] = tokenizer.mask_token_id
 
     return trunc_input_ids, unsup_masked_ids, mask_idx
