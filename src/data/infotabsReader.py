@@ -30,12 +30,12 @@ class infotabsReader(object):
         self.num_lbl = 3
 
         self.pet_labels = [["No", "Maybe", "Yes"]]
-        self.pet_patterns = [["[HYPOTHESIS] ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
-                             ["\" [HYPOTHESIS] \" ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"],
-                             ["[HYPOTHESIS] ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
-                             ["\" [HYPOTHESIS] \" ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"],
-                             ["[HYPOTHESIS] ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
-                             ["\" [HYPOTHESIS] \" ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"]]
+        self.pet_patterns = [["[HYPOTHESIS] ? {}".format(self.tokenizer.sep_token), " {}, ".format(self.tokenizer.mask_token), "[PREMISE] {}".format(self.tokenizer.sep_token)],
+                             ["\" [HYPOTHESIS] \" ? {}".format(self.tokenizer.sep_token), " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" {}".format(self.tokenizer.sep_token)],
+                             ["[HYPOTHESIS] ? {}".format(self.tokenizer.sep_token), " {}. ".format(self.tokenizer.mask_token), "[PREMISE] {}".format(self.tokenizer.sep_token)],
+                             ["\" [HYPOTHESIS] \" ? {}".format(self.tokenizer.sep_token), " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" {}".format(self.tokenizer.sep_token)],
+                             ["[HYPOTHESIS] ? {}".format(self.tokenizer.sep_token), " {}. ".format(self.tokenizer.mask_token), "[PREMISE] {}".format(self.tokenizer.sep_token)],
+                             ["\" [HYPOTHESIS] \" ? {}".format(self.tokenizer.sep_token), " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" {}".format(self.tokenizer.sep_token)]]
 
         self.pet_pvps = list(itertools.product(self.pet_patterns, self.pet_labels))
         self._num_pets = len(self.pet_pvps)
@@ -161,7 +161,7 @@ class infotabsReader(object):
             txt_trim = -1
 
             for idx, txt_split in enumerate(pattern):
-                txt_split_inp = txt_split.replace("[HYPOTHESIS]", h).replace("[PREMISE]", p).replace("[MASK]", label[lbl])
+                txt_split_inp = txt_split.replace("[HYPOTHESIS]", h).replace("[PREMISE]", p).replace(self.tokenizer.mask_token, label[lbl])
 
                 txt_split_tuple.append(txt_split_inp)
 
@@ -200,7 +200,7 @@ class infotabsReader(object):
                 txt_split_tuple = []
 
                 for idx, txt_split in enumerate(pattern):
-                    txt_split_inp = txt_split.replace("[HYPOTHESIS]", h).replace("[PREMISE]", p).replace("[MASK]", lbl)
+                    txt_split_inp = txt_split.replace("[HYPOTHESIS]", h).replace("[PREMISE]", p).replace(self.tokenizer.mask_token, lbl)
                     txt_split_tuple.append(txt_split_inp)
 
                     # Trim the paragraph
