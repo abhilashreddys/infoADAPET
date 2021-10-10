@@ -41,6 +41,9 @@ class Config(object):
         self.grad_clip_norm = 1
         self.warmup_ratio = 0
 
+        # Conditional Masking
+        self.cmlm = False
+
         if filename:
             self.__dict__.update(json.load(open(filename)))
         if kwargs:

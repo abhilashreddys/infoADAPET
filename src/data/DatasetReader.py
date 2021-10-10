@@ -76,7 +76,7 @@ class DatasetReader(object):
         '''
         # Prepare for PET MLM objective
         if "PET_MLM" in type:
-            if(self.config["cmlm"]):
+            if(self.config.cmlm):
                 return self.dataset_reader.prepare_pet_cmlm_batch(batch, mode=type.replace("PET_MLM_", ""))
             return self.dataset_reader.prepare_pet_mlm_batch(batch, mode=type.replace("PET_MLM_", ""))
         # Prepare for evaluation objective
