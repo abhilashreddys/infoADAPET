@@ -88,7 +88,8 @@ def train(config):
     
     step = 0
     global_step = 0
-
+    if (config.cmlm):
+        print("Using Conditional MLM")
     for ep in range(config.epochs):
         print("Started %d epoch" % ep)
         for i, batch in enumerate(tqdm(train_loader)):
