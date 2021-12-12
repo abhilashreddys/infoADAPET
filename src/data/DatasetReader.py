@@ -33,6 +33,10 @@ class DatasetReader(object):
             self.dataset_reader = RTEReader(self.config, tokenizer)
         elif self.dataset.lower() == "infotabs/drr":
             self.dataset_reader = infotabsReader(self.config, tokenizer)
+        elif self.dataset.lower() == "infotabs/linear_notok":
+            self.dataset_reader = infotabsReader(self.config, tokenizer)
+        elif self.dataset.lower() == "infotabs/linear_tok":
+            self.dataset_reader = infotabsReader(self.config, tokenizer)
         elif self.dataset.lower() == "mnli":
             self.dataset_reader = MNLIReader(self.config, tokenizer)
         elif self.dataset.lower() == "fewglue/multirc":

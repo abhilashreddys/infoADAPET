@@ -95,6 +95,8 @@ class infotabsReader(object):
                         dict_input = {}
                         dict_input["premise"] = preprocessTxt(line[3])
                         dict_input["hypothesis"] = preprocessTxt(line[4])
+                        # dict_input["premise"] = line[3]
+                        # dict_input["hypothesis"] = line[4]
                         dict_input["idx"] = str(line[0])
                         dict_output = {}
                         """

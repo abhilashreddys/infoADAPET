@@ -54,6 +54,12 @@ class Scorer(object):
         elif dataset.lower() == "infotabs/drr":
             self.compute_acc = True
             self.is_info = True
+        elif dataset.lower() == "infotabs/linear_notok":
+            self.compute_acc = True
+            self.is_info = True
+        elif dataset.lower() == "infotabs/linear_tok":
+            self.compute_acc = True
+            self.is_info = True
         elif dataset.lower() == "mnli":
             self.compute_acc = True
             self.is_info = True
