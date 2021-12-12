@@ -73,15 +73,15 @@ class infotabsReader(object):
         # elif split.lower() == "test_alpha3":
         #     file = os.path.join("src/data", "infotabs", "drr", "test_alpha3.tsv")
         if split.lower() == "train":
-            file = os.path.join("src/data", self.config["dataset"], "train.tsv")
+            file = os.path.join("src/data", self.config.dataset, "train.tsv")
         elif split.lower() == "dev":
-            file = os.path.join("src/data", self.config["dataset"], "dev.tsv")
+            file = os.path.join("src/data", self.config.dataset, "dev.tsv")
         elif split.lower() == "test_alpha1":
-            file = os.path.join("src/data", self.config["dataset"], "test_alpha1.tsv")
+            file = os.path.join("src/data", self.config.dataset, "test_alpha1.tsv")
         elif split.lower() == "test_alpha2":
-            file = os.path.join("src/data", self.config["dataset"], "test_alpha2.tsv")
+            file = os.path.join("src/data", self.config.dataset, "test_alpha2.tsv")
         elif split.lower() == "test_alpha3":
-            file = os.path.join("src/data", self.config["dataset"], "test_alpha3.tsv")
+            file = os.path.join("src/data", self.config.dataset, "test_alpha3.tsv")
         return file
 
     def read_dataset(self, split=None, is_eval=False):
