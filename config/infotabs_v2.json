@@ -3,7 +3,7 @@
     "dataset": "infotabs/drr",
     "max_text_length": 256,
     "batch_size": 8,
-    "epochs":10,
+    "epochs":15,
     "eval_batch_size": 1,
     "num_batches": 1000,
     "max_num_lbl_tok": 1,
