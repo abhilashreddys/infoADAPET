@@ -40,11 +40,15 @@ class infotabsReader(object):
         self.num_lbl = 2
 
         self.pet_labels = [["No", "Yes"]]
-        self.pet_patterns = [["[HYPOTHESIS] ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
-                             ["\" [HYPOTHESIS] \" ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"],
-                             ["[HYPOTHESIS] ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
-                             ["\" [HYPOTHESIS] \" ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"]]
-
+        # self.pet_patterns = [["[HYPOTHESIS] ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
+        #                      ["\" [HYPOTHESIS] \" ? [SEP]", " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"],
+        #                      ["[HYPOTHESIS] ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "[PREMISE] [SEP]"],
+        #                      ["\" [HYPOTHESIS] \" ? [SEP]", " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" [SEP]"]]
+        self.pet_patterns = [["[HYPOTHESIS] ? {}".format(self.tokenizer.sep_token), " {}, ".format(self.tokenizer.mask_token), "[PREMISE] {}".format(self.tokenizer.sep_token)],
+                             ["\" [HYPOTHESIS] \" ? {}".format(self.tokenizer.sep_token), " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" {}".format(self.tokenizer.sep_token)],
+                             ["[HYPOTHESIS] ? {}".format(self.tokenizer.sep_token), " {}. ".format(self.tokenizer.mask_token), "[PREMISE] {}".format(self.tokenizer.sep_token)],
+                             ["\" [HYPOTHESIS] \" ? {}".format(self.tokenizer.sep_token), " {}. ".format(self.tokenizer.mask_token), "\" [PREMISE] \" {}".format(self.tokenizer.sep_token)]]
+                             
         self.pet_pvps = list(itertools.product(self.pet_patterns, self.pet_labels))
         self._num_pets = len(self.pet_pvps)
         self._pet_names = ["PET{}".format(i+1) for i in range(self._num_pets)]
