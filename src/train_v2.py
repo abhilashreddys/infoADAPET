@@ -108,9 +108,10 @@ def train(config):
             dict_val_store = update_dict_val_store(dict_val_store, dict_val_update, config.grad_accumulation_factor)
         dict_avg_val = get_avg_dict_val_store(dict_val_store, config.eval_every)
         dict_val_store = None
+        torch.save(model.state_dict(), os.path.join(config.exp_dir, "epoch_"+str(ep)+"_"+config.pretrained_weight+"_best_model.pt"))
         dev_acc, dev_logits = dev_eval(config, model, batcher, ep, dict_avg_val)
         print("Finished %d epochs, Acc: %.3f" % (ep, dev_acc) + '\n')
-        torch.save(model.state_dict(), os.path.join(config.exp_dir, "epoch_"+str(ep)+"_"+config.pretrained_weight+"_best_model.pt"))
+    np.savetxt(os.path.join(config.exp_dir, 'dev.txt'),np.argmax(dev_logits,axis=1))
         
 
         
