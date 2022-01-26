@@ -76,11 +76,11 @@ class Batcher(object):
         self.eval_train_loader = data.DataLoader(Dataset(eval_train_data), batch_size=self.config.eval_batch_size, shuffle=False, collate_fn=self.my_collate_fn)
 
 
-    def _init_dev(self,spl=""):
+    def _init_dev(self):
         '''
         Initialize loader for dev data
         '''
-        dev_data = self.dataset_reader.read_dataset("dev"+spl)
+        dev_data = self.dataset_reader.read_dataset("dev")
         self.dev_loader = data.DataLoader(Dataset(dev_data), batch_size=self.config.eval_batch_size, shuffle=False, collate_fn=self.my_collate_fn)
 
     def _init_test(self):
@@ -142,14 +142,14 @@ class Batcher(object):
             self._init_train()        
         return self.eval_train_loader
 
-    def get_dev_batch(self,spl=""):
+    def get_dev_batch(self):
         '''
         Yield dev batches
 
         :return:
         '''
         if self.dev_loader is None:
-            self._init_dev(spl)
+            self._init_dev()
 
         for x in self.dev_loader:
             yield x

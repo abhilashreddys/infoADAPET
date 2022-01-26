@@ -31,7 +31,7 @@ def eval(config, model, batch_iter, scorer):
 
 
 
-def dev_eval(config, model, batcher, num_batches, spl = "", dict_avg_val=None):
+def dev_eval(config, model, batcher, num_batches, dict_avg_val=None):
     '''
     Evaluates the accuracy on the dev partition
 
@@ -46,8 +46,6 @@ def dev_eval(config, model, batcher, num_batches, spl = "", dict_avg_val=None):
 
     dict_eval = {}
     dict_eval["num_batches"] = num_batches
-    if spl!= "":
-        spl = "_"+spl
 
     if dict_avg_val is not None:
         dict_eval.update(dict_avg_val)
@@ -63,7 +61,7 @@ def dev_eval(config, model, batcher, num_batches, spl = "", dict_avg_val=None):
     # Get dev Score
     if config.eval_dev:
         dev_scorer = Scorer(config, config.dataset)
-        dev_iter = batcher.get_dev_batch(spl)
+        dev_iter = batcher.get_dev_batch()
         eval(config, model, dev_iter, dev_scorer)
         score_eval, dev_scores = dev_scorer.get_score("dev")
         dict_eval.update(dev_scores)

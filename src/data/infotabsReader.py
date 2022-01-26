@@ -76,6 +76,8 @@ class infotabsReader(object):
             file = os.path.join("src/data", self.config.dataset, "test_alpha2.tsv")
         elif split.lower() == "test_alpha3":
             file = os.path.join("src/data", self.config.dataset, "test_alpha3.tsv")
+        else:
+            file = os.path.join("src/data", self.config.dataset, split.lower()+".tsv")
         return file
     
     def getnmask(self,txt):

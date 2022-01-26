@@ -13,7 +13,7 @@ from src.utils.util import device
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-e', "--exp_dir", required=True)
-    parser.add_argument('-d', "--dataset",default="")
+    parser.add_argument('-d', "--dataset", required=True,default="")
     args = parser.parse_args()
 
     config_file = os.path.join(args.exp_dir, "config.json")
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     
     model = adapet(config, tokenizer, dataset_reader).to(device)
     model.load_state_dict(torch.load(os.path.join(args.exp_dir, "epoch_"+str(config.epochs-1)+"_"+config.pretrained_weight+"_best_model.pt")))
-    dev_acc, dev_logits = dev_eval(config, model, batcher, 0, spl = str(args.dataset))
+    dev_acc, dev_logits = dev_eval(config, model, batcher, 0)
 
     print("Dev Acc: %.3f" % (dev_acc) + '\n')
     np.savetxt(os.path.join(config.exp_dir, 'dev_'+str(args.dataset)+'.txt'),np.argmax(dev_logits,axis=1))
