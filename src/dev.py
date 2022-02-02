@@ -31,5 +31,5 @@ if __name__ == "__main__":
 
     print("Dev Acc: %.3f" % (dev_acc) + '\n')
     np.savetxt(os.path.join(config.exp_dir, 'dev_'+str(args.dataset)+'.txt'),np.argmax(dev_logits,axis=1))
-    with open(os.path.join(config.exp_dir, "dev_logits.npy"), 'wb') as f:
-        np.save(f, dev_logits)
+    # with open(os.path.join(config.exp_dir, "dev_logits.npy"), 'wb') as f:
+    #     np.save(f, dev_logits)
