@@ -31,7 +31,10 @@ class infotabsReader(object):
 
         self.num_lbl = 3
 
-        self.pet_labels = [["No", "Maybe", "Yes"]]
+        self.pet_labels = [["No", "Maybe", "Yes"]] 
+        # self.dict_lbl_2_idx = {"Contradiction": 0, "Neutral": 1, "Entailment":2}
+        # self.pet_labels = [["Yes", "Maybe", "No"]]
+        # self.dict_lbl_2_idx = {"Entailment": 0, "Neutral": 1, "Contradiction":2}
         self.pet_patterns = [["[HYPOTHESIS] ? {}".format(self.tokenizer.sep_token), " {}, ".format(self.tokenizer.mask_token), "[PREMISE] {}".format(self.tokenizer.sep_token)],
                              ["\" [HYPOTHESIS] \" ? {}".format(self.tokenizer.sep_token), " {}, ".format(self.tokenizer.mask_token), "\" [PREMISE] \" {}".format(self.tokenizer.sep_token)],
                              ["[HYPOTHESIS] ? {}".format(self.tokenizer.sep_token), " {}. ".format(self.tokenizer.mask_token), "[PREMISE] {}".format(self.tokenizer.sep_token)],
@@ -43,7 +46,7 @@ class infotabsReader(object):
         self._num_pets = len(self.pet_pvps)
         self._pet_names = ["PET{}".format(i+1) for i in range(self._num_pets)]
 
-        # self.dict_lbl_2_idx = {"Contradiction": 0, "Neutral": 1, "Entailment":2}
+        
 
         self.dict_inv_freq = defaultdict(int)
         self.tot_doc = 0
