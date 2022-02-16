@@ -118,7 +118,7 @@ class infotabsReader(object):
                     => 1: neutral => perhaps
                     """
                     if (int(line[5])==2): 
-                        dict_output["lbl"] = 1
+                        dict_output["lbl"] = 0
                     else:
                         dict_output["lbl"] = int(line[5])
                     dict_input_output = {"input": dict_input, "output": dict_output}
