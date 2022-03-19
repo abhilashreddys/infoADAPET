@@ -34,6 +34,8 @@ class DatasetReader(object):
             self.dataset_reader = RTEReader(self.config, tokenizer)
         elif self.dataset.lower() == "infotabs/drr":
             self.dataset_reader = infotabsReader(self.config, tokenizer)
+        elif self.dataset.lower() == "infotabs/bpr":
+            self.dataset_reader = infotabsReader(self.config, tokenizer)
         elif self.dataset.lower() == "infotabs/linear_notok":
             self.dataset_reader = infotabsReader(self.config, tokenizer)
         elif self.dataset.lower() == "infotabs/linear_tok":
