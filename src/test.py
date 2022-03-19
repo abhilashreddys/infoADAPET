@@ -28,5 +28,6 @@ if __name__ == "__main__":
     # test_eval(config, model, batcher)
     test_alpha_acc, test_alpha_logits = test_alpha_eval(config, model, batcher,alpha=int(args.alpha))
     print("Test alpha_%s Acc: %.3f" % (args.alpha,test_alpha_acc) + '\n')
+    np.savetxt(os.path.join(args.exp_dir, 'test_alpha'+str(args.alpha)+'_logits.txt'),test_alpha_logits)
     np.savetxt(os.path.join(args.exp_dir, 'test_alpha'+str(args.alpha)+'.txt'),np.argmax(test_alpha_logits,axis=1))
 
