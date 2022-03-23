@@ -54,6 +54,9 @@ class Scorer(object):
         elif dataset.lower() == "infotabs/drr":
             self.compute_acc = True
             self.is_info = True
+        elif dataset.lower() == "infotabs/drr_top8":
+            self.compute_acc = True
+            self.is_info = True
         elif dataset.lower() == "infotabs/bpr":
             self.compute_acc = True
             self.is_info = True
