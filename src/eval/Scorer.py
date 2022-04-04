@@ -63,6 +63,9 @@ class Scorer(object):
         elif dataset.lower() == "infotabs/linear_notok":
             self.compute_acc = True
             self.is_info = True
+        elif dataset.lower() == "infotabs/linear_notokv2":
+            self.compute_acc = True
+            self.is_info = True
         elif dataset.lower() == "infotabs/linear_tok":
             self.compute_acc = True
             self.is_info = True
