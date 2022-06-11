@@ -118,8 +118,10 @@ class infotabsReader(object):
                     # dict_input["hypothesis"] = line[4]
                     if(self.config.cmlm):
                         cw = self.getnmask(dict_input["hypothesis"])
+                        # print("cmlm: ",cw)
                         random.shuffle(cw)
-                        dict_input["cwords"] = cw 
+                        dict_input["cwords"] = cw
+                        # print(dict_input["cwords"])
                     dict_input["idx"] = str(line[0])
                     dict_output = {}
                     dict_output["lbl"] = int(line[5])
@@ -246,7 +248,7 @@ class infotabsReader(object):
                     txt_trim = idx
             if(len(cw)!=0):
                 # mcw = random.sample(cw,1)
-                # print("conditional masking: ",type(cw))
+                # print("conditional masking: ",cw)
                 orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], cw, txt_trim)
             else:
                 # mcw = ""

@@ -95,6 +95,7 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cword, txt_trim, m
     txt2_input_ids = tokenizer(txt2, add_special_tokens=False)["input_ids"]
     txt3_input_ids = tokenizer(txt3, add_special_tokens=False)["input_ids"]
 
+    tot_length = len(txt1_input_ids) + len(txt2_input_ids) + len(txt3_input_ids) + 1
     sample_length = min(tot_length, config.max_text_length)
     upto_ratio_mask = np.random.rand()
     max_mask_samples = int(upto_ratio_mask * config.mask_alpha * sample_length)
@@ -114,7 +115,7 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cword, txt_trim, m
         # mask_idx = np.asarray(mask_idx)
     mask_idx = np.asarray(mask_idx+mask_seq)
     # Add 1 to account for CLS rep
-    tot_length = len(txt1_input_ids) + len(txt2_input_ids) + len(txt3_input_ids) + 1
+    
 
     # Don't need to trim text
     if tot_length <= config.max_text_length:
