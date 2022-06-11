@@ -95,24 +95,9 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cword, txt_trim, m
     txt2_input_ids = tokenizer(txt2, add_special_tokens=False)["input_ids"]
     txt3_input_ids = tokenizer(txt3, add_special_tokens=False)["input_ids"]
 
-    sample_length = min(tot_length, config.max_text_length)
-    upto_ratio_mask = np.random.rand()
-    max_mask_samples = int(upto_ratio_mask * config.mask_alpha * sample_length)
-    mask_seq = []
-    # if(len(cword)>0):
-    #     mask_seq = gettokenseq(txt1_tokens,cword,txt1)
-    for cw in cword:
-        mask_seq += gettokenseq(txt1_tokens,cw,txt1)
-        if len(mask_seq) > max_mask_samples:
-            break
-    if mask_idx is None:
-        # sample_length = min(tot_length, config.max_text_length)
-        # upto_ratio_mask = np.random.rand()
-        # max_mask_samples = int(upto_ratio_mask * config.mask_alpha * sample_length)
-        num_sample = max(max_mask_samples-len(mask_seq), 2) - 1
-        mask_idx = random.sample(range(0, sample_length), k=num_sample)
-        # mask_idx = np.asarray(mask_idx)
-    mask_idx = np.asarray(mask_idx+mask_seq)
+    if(len(cword)>0):
+        mask_seq = gettokenseq(txt1_tokens,cword,txt1)
+
     # Add 1 to account for CLS rep
     tot_length = len(txt1_input_ids) + len(txt2_input_ids) + len(txt3_input_ids) + 1
 
@@ -139,11 +124,19 @@ def tokenize_pet_cmlm_txt(tokenizer, config, txt1, txt2, txt3,cword, txt_trim, m
 
     trunc_input_ids = [tokenizer.cls_token_id] + trunc_input_ids
 
+    if mask_idx is None:
+        sample_length = min(tot_length, config.max_text_length)
+        upto_ratio_mask = np.random.rand()
+        num_sample = max(int(upto_ratio_mask * config.mask_alpha * sample_length), 2) - 1
+        mask_idx = random.sample(range(0, sample_length), k=num_sample)
+        mask_idx = np.asarray(mask_idx)
+
     # Copy adds mask idx at random positions
     unsup_masked_ids = np.copy(trunc_input_ids)
+
     unsup_masked_ids[mask_idx] = tokenizer.mask_token_id
-    # if(len(cword)>0 and len(mask_seq)>0):
-    #     unsup_masked_ids[np.asarray(mask_seq)] = tokenizer.mask_token_id
+    if(len(cword)>0 and len(mask_seq)>0):
+        unsup_masked_ids[np.asarray(mask_seq)] = tokenizer.mask_token_id
 
     return trunc_input_ids, unsup_masked_ids, mask_idx
 

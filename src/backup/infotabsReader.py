@@ -115,7 +115,7 @@ class infotabsReader(object):
                     # dict_input["premise"] = line[3]
                     # dict_input["hypothesis"] = line[4]
                     if(self.config.cmlm):
-                        dict_input["cwords"] = random.shuffle(self.getnmask(dict_input["hypothesis"]))
+                        dict_input["cwords"] = self.getnmask(dict_input["hypothesis"])
                     dict_input["idx"] = str(line[0])
                     dict_output = {}
                     dict_output["lbl"] = int(line[5])
@@ -241,14 +241,11 @@ class infotabsReader(object):
                 if "[PREMISE]" in txt_split:
                     txt_trim = idx
             if(len(cw)!=0):
-                # mcw = random.sample(cw,1)
-                print("conditional masking: ",type(cw))
-                orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], cw, txt_trim)
+                mcw = random.sample(cw,1)
+                orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], mcw, txt_trim)
             else:
-                # mcw = ""
-                # orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], mcw, txt_trim)
-                orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_mlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], txt_trim)
-            # orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], cw, txt_trim)
+                mcw = ""
+                orig_input_ids, masked_input_ids, mask_idx = tokenize_pet_cmlm_txt(self.tokenizer, self.config, txt_split_tuple[0], txt_split_tuple[1], txt_split_tuple[2], mcw, txt_trim)
             list_orig_input_ids.append(orig_input_ids)
             list_masked_input_ids.append(masked_input_ids)
 
