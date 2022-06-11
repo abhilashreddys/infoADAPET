@@ -87,8 +87,10 @@ class infotabsReader(object):
     def getnmask(self,txt):
         prob = []
         doc = nlp(txt)
+        pos_list = ["ADJ","ADV","NOUN","VERB","PROPN","ADP","NUM","CONJ","SCONJ"]
         for t in doc:
-            if (t.pos_ == "NOUN" or t.pos_ == "NUM" or t.pos_ == "PROPN"):
+            # if (t.pos_ == "NOUN" or t.pos_ == "NUM" or t.pos_ == "PROPN"):
+            if t.pos_ in pos_list:
                 prob.append(t.text)
         return prob
 

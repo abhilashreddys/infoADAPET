@@ -51,6 +51,7 @@ class Config(object):
 
         if filename or kwargs:
             self.update_exp_config(mkdir)
+        print("Conditional Masking: ",self.cmlm)
 
     def update_kwargs(self, kwargs):
         for (k, v) in kwargs.items():
